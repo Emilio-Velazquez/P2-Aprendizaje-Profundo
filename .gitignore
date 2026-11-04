@@ -1,0 +1,23 @@
+# Entorno y caches
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+.env
+
+# Artefactos y experimentos
+artifacts/*
+!artifacts/.gitkeep
+mlruns/
+mlartifacts/
+
+# Datos reales (DVC gestiona los archivos de datos)
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/*.dvc
+!data/raw/.gitignore
+
+data/processed/*
+!data/processed/.gitkeep
+!data/processed/*.dvc
+!data/processed/.gitignore
