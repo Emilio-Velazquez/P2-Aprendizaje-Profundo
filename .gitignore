@@ -8,6 +8,7 @@ __pycache__/
 # Artefactos y experimentos
 artifacts/*
 !artifacts/.gitkeep
+mlflow.db
 mlruns/
 mlartifacts/
 

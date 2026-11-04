@@ -8,3 +8,4 @@ dvc
 pre-commit
 pytest
 ruff
+mlflow
