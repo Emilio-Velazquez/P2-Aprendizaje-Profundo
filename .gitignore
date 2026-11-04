@@ -11,13 +11,13 @@ artifacts/*
 mlruns/
 mlartifacts/
 
-# Datos reales (DVC gestiona los archivos de datos)
-data/raw/*
+# Datos reales
+data/raw/*.csv
 !data/raw/.gitkeep
 !data/raw/*.dvc
 !data/raw/.gitignore
 
-data/processed/*
+data/processed/*.*
 !data/processed/.gitkeep
 !data/processed/*.dvc
 !data/processed/.gitignore

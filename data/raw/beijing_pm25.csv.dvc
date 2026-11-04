@@ -1,0 +1,5 @@
+outs:
+- md5: 9e33688f40930bf01f4299958217e22c
+  size: 2265446
+  hash: md5
+  path: beijing_pm25.csv
