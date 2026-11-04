@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+
 import pandas as pd
 
 
@@ -44,7 +45,7 @@ def download_beijing(raw_dir: Path) -> Path:
         df.to_csv(target_file, index=False)
         print("Dataset descargado exitosamente via ucimlrepo")
         return target_file
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Fallo descarga con ucimlrepo: {e}")
 
     # Intento 2: respaldo directo desde URL de UCI
@@ -54,7 +55,7 @@ def download_beijing(raw_dir: Path) -> Path:
         df_backup.to_csv(target_file, index=False)
         print("Dataset descargado exitosamente via URL de respaldo")
         return target_file
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Fallo descarga via URL de respaldo: {e}")
 
     # Fallo total

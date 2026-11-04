@@ -1,0 +1,10 @@
+data:
+  raw_path: data/raw/beijing_pm25.csv
+  processed_dir: data/processed
+preprocess:
+  window: 24
+  horizon: 1
+  train_frac: 0.70
+  val_frac: 0.15
+  target: pm2.5
+  max_interp_gap: 6

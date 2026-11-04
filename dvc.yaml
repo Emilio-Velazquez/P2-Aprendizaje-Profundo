@@ -1,0 +1,17 @@
+stages:
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+      - data/raw/beijing_pm25.csv
+      - src/data/preprocess.py
+    params:
+      - preprocess.window
+      - preprocess.horizon
+      - preprocess.train_frac
+      - preprocess.val_frac
+      - preprocess.target
+      - preprocess.max_interp_gap
+    outs:
+      - data/processed/dataset.npz
+      - data/processed/scaler.json
+      - data/processed/meta.json

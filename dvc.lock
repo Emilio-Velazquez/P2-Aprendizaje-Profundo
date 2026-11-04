@@ -1,0 +1,34 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/data/preprocess.py
+    deps:
+    - path: data/raw/beijing_pm25.csv
+      hash: md5
+      md5: 9e33688f40930bf01f4299958217e22c
+      size: 2265446
+    - path: src/data/preprocess.py
+      hash: md5
+      md5: cd952cf7607a4ff017f46083b2c010e2
+      size: 8566
+    params:
+      params.yaml:
+        preprocess.horizon: 1
+        preprocess.max_interp_gap: 6
+        preprocess.target: pm2.5
+        preprocess.train_frac: 0.7
+        preprocess.val_frac: 0.15
+        preprocess.window: 24
+    outs:
+    - path: data/processed/dataset.npz
+      hash: md5
+      md5: 743e320b0feed6c79ec8fb71060eea83
+      size: 1097135
+    - path: data/processed/meta.json
+      hash: md5
+      md5: cf5dca5ef70feab6104dbec68921ae21
+      size: 872
+    - path: data/processed/scaler.json
+      hash: md5
+      md5: 901fae06d40bc1339057901f0e93d278
+      size: 1046
