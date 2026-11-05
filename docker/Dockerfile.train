@@ -1,0 +1,29 @@
+FROM nvidia/cuda:12.8.0-cudnn-runtime-ubuntu22.04
+
+# Instalar Python 3.10 y gestor de paquetes
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.10 \
+    python3-pip \
+    python3.10-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ln -sf /usr/bin/python3.10 /usr/bin/python
+
+# Instalar PyTorch con soporte CUDA 12
+RUN pip install --no-cache-dir torch==2.14.1 --extra-index-url https://download.pytorch.org/whl/cu128
+
+WORKDIR /app
+
+# Instalar dependencias adicionales de entrenamiento
+COPY requirements-train.txt .
+RUN pip install --no-cache-dir -r requirements-train.txt
+
+# Copiar codigo fuente y configuracion
+COPY src ./src
+COPY params.yaml ./params.yaml
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+ENTRYPOINT ["python", "-m", "src.training.train"]
+CMD ["--model", "lstm", "--hidden_size", "64", "--num_layers", "2", "--dropout", "0.0", "--seed", "42", "--stage", "docker"]

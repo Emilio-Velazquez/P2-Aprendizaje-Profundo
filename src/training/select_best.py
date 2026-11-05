@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 from pathlib import Path
@@ -7,6 +8,15 @@ import yaml
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--expect",
+        type=str,
+        default=None,
+        help="Configuracion esperada: model,hidden,layers,dropout",
+    )
+    args = parser.parse_args()
+
     base_dir = Path(__file__).resolve().parents[2]
     params_path = base_dir / "params.yaml"
     with open(params_path, "r", encoding="utf-8") as f:
@@ -81,7 +91,6 @@ def main():
         )
 
     champ_cfg = rankings[0]
-    expected_cfg = ("lstm", 64, 2, 0.0)
     actual_cfg = (
         champ_cfg["model_type"],
         champ_cfg["hidden_size"],
@@ -89,11 +98,14 @@ def main():
         champ_cfg["dropout"],
     )
 
-    if actual_cfg != expected_cfg:
-        print(
-            f"Error: la configuracion elegida {actual_cfg} no coincide con la esperada {expected_cfg}."
-        )
-        sys.exit(1)
+    if args.expect:
+        parts = [p.strip() for p in args.expect.split(",")]
+        expected = (parts[0], int(parts[1]), int(parts[2]), float(parts[3]))
+        if actual_cfg != expected:
+            print(
+                f"Error: la configuracion elegida {actual_cfg} no coincide con la esperada {expected}."
+            )
+            sys.exit(1)
 
     # Seleccionar el run de menor best_val_rmse dentro de la config campeona
     champ_group = champ_cfg["group_df"].sort_values(by="best_val_rmse", ascending=True)

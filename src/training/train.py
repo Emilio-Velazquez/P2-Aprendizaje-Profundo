@@ -48,6 +48,9 @@ def set_seed(seed: int):
 
 
 def get_git_info():
+    env_commit = os.environ.get("GIT_COMMIT")
+    if env_commit:
+        return env_commit.strip()
     try:
         commit = (
             subprocess.check_output(["git", "rev-parse", "--short", "HEAD"])
