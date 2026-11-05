@@ -9,3 +9,7 @@ pre-commit
 pytest
 ruff
 mlflow
+fastapi
+uvicorn
+httpx
+pydantic

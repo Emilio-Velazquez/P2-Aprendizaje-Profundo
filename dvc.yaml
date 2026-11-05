@@ -3,6 +3,7 @@ stages:
     cmd: python src/data/preprocess.py
     deps:
       - data/raw/beijing_pm25.csv
+      - src/data/features.py
       - src/data/preprocess.py
     params:
       - preprocess.window

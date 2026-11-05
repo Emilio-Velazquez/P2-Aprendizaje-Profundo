@@ -7,10 +7,14 @@ stages:
       hash: md5
       md5: 9e33688f40930bf01f4299958217e22c
       size: 2265446
+    - path: src/data/features.py
+      hash: md5
+      md5: 08930118d27a69019727e19bb264ac5c
+      size: 966
     - path: src/data/preprocess.py
       hash: md5
-      md5: cd952cf7607a4ff017f46083b2c010e2
-      size: 8566
+      md5: db0ed1b78c72e3a153edbd09310de490
+      size: 7816
     params:
       params.yaml:
         preprocess.horizon: 1

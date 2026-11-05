@@ -1,6 +1,6 @@
 outs:
-- md5: 7100b3f3044d8b84212ca8783ec6da91.dir
-  size: 224503
-  nfiles: 10
+- md5: c0a359451b057d90a323c35bafded21c.dir
+  size: 444384
+  nfiles: 11
   hash: md5
   path: champion

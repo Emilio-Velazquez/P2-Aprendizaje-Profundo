@@ -22,6 +22,7 @@ services:
       retries: 5
 
   train:
+    profiles: ["train"]
     build:
       context: .
       dockerfile: docker/Dockerfile.train
@@ -42,6 +43,13 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+  inference:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.inference
+    ports:
+      - "8000:8000"
 
 volumes:
   mlflow_data:

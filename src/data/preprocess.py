@@ -1,9 +1,15 @@
 import json
+import sys
 from pathlib import Path
+
+# Asegurar que la raiz del proyecto este en sys.path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import numpy as np
 import pandas as pd
 import yaml
+
+from src.data.features import add_features
 
 
 def load_raw(path: Path) -> pd.DataFrame:
@@ -15,28 +21,6 @@ def load_raw(path: Path) -> pd.DataFrame:
     # Descartar columnas temporales crudas e identificador
     cols_to_drop = ["No", "year", "month", "day", "hour"]
     return df.drop(columns=[c for c in cols_to_drop if c in df.columns])
-
-
-def add_features(df: pd.DataFrame, target: str = "pm2.5") -> pd.DataFrame:
-    df_feat = df.copy()
-
-    # One-hot encoding de direccion de viento con orden determinista
-    categories = ["NE", "NW", "SE", "cv"]
-    for cat in categories:
-        df_feat[f"cbwd_{cat}"] = (df_feat["cbwd"] == cat).astype(float)
-    df_feat = df_feat.drop(columns=["cbwd"])
-
-    # Caracteristicas ciclicas temporales
-    hours = df_feat.index.hour
-    months = df_feat.index.month - 1
-    df_feat["hour_sin"] = np.sin(2 * np.pi * hours / 24.0).astype(float)
-    df_feat["hour_cos"] = np.cos(2 * np.pi * hours / 24.0).astype(float)
-    df_feat["month_sin"] = np.sin(2 * np.pi * months / 12.0).astype(float)
-    df_feat["month_cos"] = np.cos(2 * np.pi * months / 12.0).astype(float)
-
-    # Reordenar para que el target sea la columna 0
-    other_cols = [c for c in df_feat.columns if c != target]
-    return df_feat[[target] + other_cols]
 
 
 def split_chronological(df: pd.DataFrame, train_frac: float, val_frac: float):

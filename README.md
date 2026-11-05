@@ -39,3 +39,27 @@ El proyecto implementa un flujo MLOps reproducible desde el control de versiones
      `http://localhost:5000`
    - Detener servicios preservando el volumen de datos:
      `docker compose down`
+
+## Servicio de Inferencia (API REST)
+
+1. Construir y levantar el servicio de inferencia en segundo plano:
+   `docker compose build inference`
+   `docker compose up -d inference`
+
+2. Endpoints disponibles:
+   - `GET http://localhost:8000/health`: comprobacion de salud del servicio (`{"status": "ok"}`).
+   - `GET http://localhost:8000/info`: configuracion del modelo, tamano de ventana (24) y lista de 15 variables.
+   - `POST http://localhost:8000/predict`: prediccion de concentracion de PM2.5 para la siguiente hora (horizonte de 1 hora) a partir de 24 registros horarios consecutivos.
+
+3. Ejemplo de peticion con `curl.exe`:
+   `curl.exe -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d @examples/sample_request.json`
+
+4. Ejemplo de peticion con PowerShell:
+   `Invoke-RestMethod -Uri http://localhost:8000/predict -Method Post -InFile examples/sample_request.json -ContentType "application/json"`
+
+5. Regenerar el modelo exportado:
+   `python -m src.training.select_best`
+   `python -m src.training.export_champion`
+
+6. Detener el servicio:
+   `docker compose down`
