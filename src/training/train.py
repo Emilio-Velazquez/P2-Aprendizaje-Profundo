@@ -332,6 +332,7 @@ def main():
             name="model",
             signature=signature,
             input_example=input_example,
+            serialization_format="pickle",
         )
 
 
