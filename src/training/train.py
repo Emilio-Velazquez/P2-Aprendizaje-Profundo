@@ -33,6 +33,9 @@ def parse_args():
     parser.add_argument("--num_layers", type=int, default=None)
     parser.add_argument("--dropout", type=float, default=None)
     parser.add_argument("--batch_size", type=int, default=None)
+    parser.add_argument("--seed", type=int, default=None)
+    parser.add_argument("--run_name", type=str, default=None)
+    parser.add_argument("--stage", type=str, default="single")
     return parser.parse_args()
 
 
@@ -54,6 +57,31 @@ def get_git_info():
     except Exception:  # noqa: BLE001
         commit = "unknown"
     return commit
+
+
+def get_dataset_hashes(base_dir: Path):
+    raw_md5 = "unknown"
+    processed_md5 = "unknown"
+    raw_dvc_path = base_dir / "data" / "raw" / "beijing_pm25.csv.dvc"
+    try:
+        with open(raw_dvc_path, "r", encoding="utf-8") as f:
+            raw_dvc = yaml.safe_load(f)
+            raw_md5 = raw_dvc.get("outs", [{}])[0].get("md5", "unknown")
+    except Exception:  # noqa: BLE001
+        raw_md5 = "unknown"
+
+    lock_path = base_dir / "dvc.lock"
+    try:
+        with open(lock_path, "r", encoding="utf-8") as f:
+            lock_data = yaml.safe_load(f)
+            outs = lock_data.get("stages", {}).get("preprocess", {}).get("outs", [])
+            for out in outs:
+                if "dataset.npz" in out.get("path", ""):
+                    processed_md5 = out.get("md5", "unknown")
+                    break
+    except Exception:  # noqa: BLE001
+        processed_md5 = "unknown"
+    return raw_md5, processed_md5
 
 
 def main():
@@ -86,7 +114,8 @@ def main():
     scheduler_patience = train_cfg["scheduler_patience"]
     scheduler_factor = train_cfg["scheduler_factor"]
     grad_clip = train_cfg["grad_clip"]
-    seed = train_cfg["seed"]
+    seed = args.seed if args.seed is not None else train_cfg["seed"]
+    run_name = args.run_name if args.run_name is not None else args.model
 
     set_seed(seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -146,13 +175,16 @@ def main():
     mlflow.set_tracking_uri(tracking_uri)
     mlflow.set_experiment(mlflow_cfg["experiment"])
 
+    raw_md5, processed_md5 = get_dataset_hashes(base_dir)
     start_time = time.time()
-    with mlflow.start_run(run_name=args.model):
+    with mlflow.start_run(run_name=run_name):
         mlflow.set_tags(
             {
                 "model_type": args.model,
                 "git_commit": get_git_info(),
-                "dataset_tag": "dataset-v1",
+                "stage": args.stage,
+                "raw_dataset_md5": raw_md5,
+                "processed_dataset_md5": processed_md5,
             }
         )
         mlflow.log_params(
