@@ -5,10 +5,7 @@ data/raw
 mlruns
 mlartifacts
 mlflow.db
-model_export/champion/model
-model_export/champion/params.yaml
-model_export/.gitignore
-model_export/*.dvc
+model_export
 artifacts
 __pycache__
 .pytest_cache

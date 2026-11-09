@@ -17,10 +17,10 @@ USER appuser
 COPY --chown=appuser:appuser src ./src
 
 # Copiar artefactos necesarios del modelo campeon
-COPY --chown=appuser:appuser model_export/champion/weights.pt /app/model_export/champion/weights.pt
-COPY --chown=appuser:appuser model_export/champion/scaler.json /app/model_export/champion/scaler.json
-COPY --chown=appuser:appuser model_export/champion/feature_names.json /app/model_export/champion/feature_names.json
-COPY --chown=appuser:appuser model_export/champion/env_info.json /app/model_export/champion/env_info.json
+COPY --chown=appuser:appuser deploy/champion/weights.pt /app/model_export/champion/weights.pt
+COPY --chown=appuser:appuser deploy/champion/scaler.json /app/model_export/champion/scaler.json
+COPY --chown=appuser:appuser deploy/champion/feature_names.json /app/model_export/champion/feature_names.json
+COPY --chown=appuser:appuser deploy/champion/env_info.json /app/model_export/champion/env_info.json
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app

@@ -110,7 +110,15 @@ def main():
         print("Error al verificar exportacion local.")
         sys.exit(1)
 
-    print("Exportacion de modelo completada en model_export/champion/")
+    # Copiar artefactos minimos para despliegue
+    deploy_dir = base_dir / "deploy" / "champion"
+    deploy_dir.mkdir(parents=True, exist_ok=True)
+    for fname in ["weights.pt", "scaler.json", "feature_names.json", "env_info.json"]:
+        shutil.copy2(champion_dir / fname, deploy_dir / fname)
+
+    print(
+        "Exportacion de modelo completada en model_export/champion/ y deploy/champion/"
+    )
 
 
 if __name__ == "__main__":

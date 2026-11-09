@@ -1,0 +1,19 @@
+{
+  "feature_names": [
+    "pm2.5",
+    "DEWP",
+    "TEMP",
+    "PRES",
+    "Iws",
+    "Is",
+    "Ir",
+    "cbwd_NE",
+    "cbwd_NW",
+    "cbwd_SE",
+    "cbwd_cv",
+    "hour_sin",
+    "hour_cos",
+    "month_sin",
+    "month_cos"
+  ]
+}

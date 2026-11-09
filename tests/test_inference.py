@@ -197,8 +197,8 @@ def test_feature_parity_with_training():
     dataset = np.load(dataset_path)
     x_test = dataset["X_test"]
 
-    # Crear predictor temporal apuntando a model_export/champion
-    champ_dir = Path("model_export/champion")
+    # Crear predictor temporal apuntando a deploy/champion
+    champ_dir = Path("deploy/champion")
     if not (champ_dir / "weights.pt").exists():
         pytest.skip("Modelo champion no exportado.")
 
