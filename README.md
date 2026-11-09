@@ -10,13 +10,14 @@ Todo el desarrollo sigue practicas de ingenieria de software profesional con ver
 
 ```mermaid
 flowchart LR
-    A["Git + Pre-commit"] --> B["DVC (Datos Crudos v1)"]
-    B --> C["Preprocesamiento Modular"]
-    C --> D["Modelos RNN / LSTM"]
-    D --> E["MLflow Tracking & Sweep"]
-    E --> F["Seleccion Campeon & Registry"]
-    F --> G["Exportacion deploy/champion"]
-    G --> H["Servicio Docker Inferencia (FastAPI)"]
+    A["Git y pre-commit"] --> B["DVC: dataset v1"]
+    B --> C["Preprocesamiento"]
+    C --> D["RNN"]
+    C --> E["LSTM"]
+    D --> F["MLflow: tracking y registry"]
+    E --> F
+    F --> G["Mejor modelo: campeon"]
+    G --> H["Docker: inferencia"]
 ```
 
 ## Estructura del Repositorio
@@ -34,7 +35,7 @@ flowchart LR
 │   ├── Dockerfile.train    # Entorno de entrenamiento con aceleracion GPU
 │   └── Dockerfile.inference# API REST de inferencia optimizada para CPU
 ├── examples/               # Peticion de ejemplo (sample_request.json)
-├── notebooks/              # Analisis exploratorio inicial
+├── notebooks/              # Reservado para exploracion (vacio por ahora)
 ├── src/
 │   ├── data/               # Descarga, extraccion de caracteristicas y preprocesamiento
 │   ├── inference/          # Servidor FastAPI, predictor y esquemas Pydantic v2
@@ -57,7 +58,7 @@ python -m venv .venv
 # En Linux/macOS:
 source .venv/bin/activate
 
-pip install --no-cache-dir torch==2.14.1 --extra-index-url https://download.pytorch.org/whl/cpu
+pip install --no-cache-dir torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
 pre-commit install
 ```
@@ -194,5 +195,5 @@ Estas pruebas se ejecutan localmente en cada commit mediante pre-commit y automa
 
 - **Horizonte de prediccion:** El modelo actual realiza forecasting uniescalon a 1 hora hacia adelante ($t+1$). Una extension natural consiste en incorporar modelos autoregresivos o secuencia a secuencia para prediccion multiescalon (6, 12 y 24 horas).
 - **Estacion unica:** Los datos provienen de una estacion puntual en Beijing. Integrar multiples estaciones requeriria arquitecturas espacio-temporales (Graph Neural Networks o ST-GCN).
-- **Determinismo en empaquetado:** El hash MD5 del archivo comprimido `dataset.npz` varia ligeramente en funcion de la version de Python y marcas de tiempo del compresor zip, aunque los arreglos numericos internos son 100% identicos.
+- **Determinismo en empaquetado:** El hash MD5 del archivo comprimido `dataset.npz` varia con la version de Python (y de NumPy), mientras los arreglos internos son identicos.
 - **Persistencia de experimentos:** La base de datos SQLite `mlflow.db` y sus artefactos locales no se versionan en Git para mantener el repositorio ligero. En Docker, la persistencia se garantiza mediante el volumen nombrado `mlflow_data`.
