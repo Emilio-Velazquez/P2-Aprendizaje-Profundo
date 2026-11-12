@@ -4,7 +4,6 @@
 
 Forecasting de la concentracion horaria de material particulado PM2.5 en Beijing a 1 hora hacia el futuro utilizando redes recurrentes RNN y LSTM en PyTorch.
 El proyecto implementa un flujo completo de MLOps con control de versiones de datos y modelos, seguimiento de experimentos con MLflow, y empaquetado para despliegue en contenedores Docker.
-Todo el desarrollo sigue practicas de ingenieria de software profesional con verificacion continua mediante pre-commit y GitHub Actions.
 
 ## Pipeline de MLOps
 
