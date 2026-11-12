@@ -1,6 +1,6 @@
 # Prediccion de Series de Tiempo - Beijing PM2.5
 
-[![CI](https://github.com/USUARIO/REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/USUARIO/REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/Emilio-Velazquez/P2-Aprendizaje-Profundo/actions/workflows/ci.yml/badge.svg)](https://github.com/Emilio-Velazquez/P2-Aprendizaje-Profundo/actions/workflows/ci.yml)
 
 Forecasting de la concentracion horaria de material particulado PM2.5 en Beijing a 1 hora hacia el futuro utilizando redes recurrentes RNN y LSTM en PyTorch.
 El proyecto implementa un flujo completo de MLOps con control de versiones de datos y modelos, seguimiento de experimentos con MLflow, y empaquetado para despliegue en contenedores Docker.
