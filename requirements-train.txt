@@ -1,5 +1,0 @@
-numpy==2.2.6
-pyyaml
-matplotlib
-pandas
-mlflow==3.18.0
